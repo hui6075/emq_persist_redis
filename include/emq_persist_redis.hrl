@@ -1,0 +1,1 @@
+-define(APP, emq_persist_redis).
