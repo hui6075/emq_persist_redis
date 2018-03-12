@@ -5,15 +5,15 @@ This is a plugin for the EMQ broker to store mqtt clients logging info, PUBLISH 
 
 Usage(Require Erlang/OTP 19+)
 -------------
-> git clone https://github.com/emqtt/emq-relx.git
-> cd emq-relx
-> vi Makefile
+\> git clone https://github.com/emqtt/emq-relx.git </br>
+\> cd emq-relx </br>
+\> vi Makefile </br>
 ```
 DEPS += emq_persist_redis
 dep_emq_persist_redis = git https://github.com/hui6075/emq_persist_redis master
 ```
-> make
-> cd _rel/emqttd && ./bin/emqttd console
+\> make </br>
+\> cd _rel/emqttd && ./bin/emqttd console </br>
 
 Plugin Config
 -------------
