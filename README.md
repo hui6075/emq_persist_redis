@@ -3,11 +3,22 @@ emq-persist-redis
 
 This is a plugin for the EMQ broker to store mqtt clients logging info, PUBLISH messages.
 
+Usage(Require Erlang/OTP 19+)
+-------------
+> git clone https://github.com/emqtt/emq-relx.git
+> cd emq-relx
+> vi Makefile
+```
+DEPS += emq_persist_redis
+dep_emq_persist_redis = git https://github.com/hui6075/emq_persist_redis master
+```
+> make
+> cd _rel/emqttd && ./bin/emqttd console
+
 Plugin Config
 -------------
 
-etc/emq_persist_redis.conf
-
+vi etc/emq_persist_redis.conf
 #### Redis server configure
 persist.redis.server = 127.0.0.1:6379
 persist.redis.database = 0
