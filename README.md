@@ -20,18 +20,18 @@ Plugin Config
 
 \> vi etc/emq_persist_redis.conf </br>
 ```
-\## Redis server configure
+## Redis server configure
 persist.redis.server = 127.0.0.1:6379
 persist.redis.database = 0
 persist.redis.password = ""
 
-\## Logging LIST(per client) length
+## Logging LIST(per client) length
 persist.redis.log_list_length = 10
 
-\## PUBLISH LIST(per topic) length
+## PUBLISH LIST(per topic) length
 persist.redis.pub_list_length = 100
 
-\## client SET name
+## client SET name
 persist.redis.client_set = client_set
 ```
 Redis Table
