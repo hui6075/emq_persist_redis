@@ -26,13 +26,19 @@ Redis Table
 ------------
 ### Logging LIST:
 ```
-------------------------------------------------------------------------------------
-|  127.0.0.1:6379> LRANGE client1 0 -1                                             |
-|  1) "DISCONNECTED at 2018-03-12 11:01:14 Reason:   normal"                       |
-|  2) "UNSUBSCRIBE  at 2018-03-12 11:01:12 Topic(s): {test} {test1} {test2}"       |
-|  3) "SUBSCRIBE    at 2018-03-12 11:01:12 Topic(s): {test|0} {test1|1} {test2|2}" |
-|  4) "CONNECTED    at 2018-03-12 11:01:09 Result:   Connection accepted"          |
-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+|  127.0.0.1:6379> LRANGE client1 0 -1                                              |
+|  1) "DISCONNECTED at 2018-03-13 19:01:14 Reason:   normal"                        |
+|  1) "UNSUBSCRIBE  at 2018-03-13 11:31:53 Topic(s): {topic4|local}"                |
+|  2) "SUBSCRIBE    at 2018-03-13 11:31:51 Topic(s): {topic4|0|local}"              |
+|  1) "UNSUBSCRIBE  at 2018-03-13 11:20:08 Topic(s): {topic3|$queue}"               |
+|  2) "SUBSCRIBE    at 2018-03-13 11:20:07 Topic(s): {topic3|0|$queue}"             |
+|  3) "UNSUBSCRIBE  at 2018-03-13 11:19:40 Topic(s): {topic2|$share|group3}"        |
+|  4) "SUBSCRIBE    at 2018-03-13 11:19:39 Topic(s): {topic2|0|$share|group3}"      |
+|  2) "UNSUBSCRIBE  at 2018-03-12 11:01:12 Topic(s): {test0} {test1} {test2}"       |
+|  3) "SUBSCRIBE    at 2018-03-12 11:01:12 Topic(s): {test0|0} {test1|1} {test2|2}" |
+|  4) "CONNECTED    at 2018-03-12 11:01:09 Result:   Connection accepted"           |
+-------------------------------------------------------------------------------------
 ```
 ### PUBLISH LIST:
 ```

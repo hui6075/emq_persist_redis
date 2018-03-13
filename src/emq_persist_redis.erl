@@ -169,19 +169,47 @@ get_connect_result(ConnAck) ->
     end.
 
 %% type of subscription TopicTable: [{<<topic1>>, [{qos, Qos1}|Opts]}, {<<topic2>>, [{qos, Qos2}|Opts]}]
+%% [{<<"topic1">>,[{qos,0}]}]
+%% [{<<"topic2">>,[{qos,0},{share,<<"g1">>}]}]
+%% [{<<"topic3">>,[{qos,0},{share,'$queue'}]}]
+%% [{<<"topic4">>,[{qos,0},local]}]
 format_sub_table(TopicTable) ->
-    lists:map(fun({Top, [Term]}) ->
-                      case Term of
-                          {qos, QoS} ->
-                              " {" ++ binary_to_list(Top) ++ "|" ++ integer_to_list(QoS) ++ "}";
-                          _Opts ->
-                              " {" ++ binary_to_list(Top) ++ "}"
+    lists:map(fun({Topic, Attr}) ->
+                      case Attr of
+                          [{qos, QoS}] ->
+                              " {" ++ binary_to_list(Topic) ++ "|" ++ integer_to_list(QoS) ++ "}";
+                          [{qos, QoS},{share, Val}] ->
+                              if
+                                  is_atom(Val) ->
+                                      " {" ++ binary_to_list(Topic) ++ "|" ++ integer_to_list(QoS) ++ 
+                                      "|" ++ atom_to_list(Val) ++ "}";
+                                  true ->
+                                      " {" ++ binary_to_list(Topic) ++ "|" ++ integer_to_list(QoS) ++ 
+                                      "|$share|" ++ binary_to_list(Val) ++ "}"
+                              end;
+                          [{qos, QoS},local] ->
+                              " {" ++ binary_to_list(Topic) ++ "|" ++ integer_to_list(QoS) ++ 
+                              "|local" ++ "}"
                       end
               end, TopicTable).
 
-%% type of unsubscription TopicTable: [{<<topic1>>,[]},{<<topic2>>,[]}]
+%% type of unsubscription TopicTable: [{<<topic1>>,[]},{<<topic2>>,[Opts]}]
 format_unsub_table(TopicTable) ->
-    lists:map(fun({Top, _Opt}) -> " {" ++ binary_to_list(Top) ++ "}" end, TopicTable).
+    lists:map(fun({Topic, Attribute}) -> 
+                      case Attribute of
+                          [] ->
+                              " {" ++ binary_to_list(Topic) ++ "}";
+                          [{share, Val}] ->
+                              if
+                                  is_atom(Val) ->
+                                      " {" ++ binary_to_list(Topic) ++ "|" ++ atom_to_list(Val) ++ "}";
+                                  true ->
+                                      " {" ++ binary_to_list(Topic) ++ "|$share|" ++ binary_to_list(Val) ++ "}"
+                              end;
+                          [local] ->
+                              " {" ++ binary_to_list(Topic) ++ "|" ++ "local" ++ "}"
+                      end
+              end, TopicTable).
 
 %% -type(mqtt_msg_from() :: atom() | {binary(), undefined | binary()}).
 format_msg(#mqtt_message{pktid = PktId, from = {ClientId, undefined},
