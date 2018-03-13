@@ -3,28 +3,40 @@ emq-persist-redis
 
 This is a plugin for the EMQ broker to store mqtt clients logging info, PUBLISH messages.
 
+Usage(Require Erlang/OTP 19+)
+-------------
+\> git clone https://github.com/emqtt/emq-relx.git </br>
+\> cd emq-relx </br>
+\> vi Makefile </br>
+```
+DEPS += emq_persist_redis
+dep_emq_persist_redis = git https://github.com/hui6075/emq_persist_redis master
+```
+\> make </br>
+\> cd _rel/emqttd && ./bin/emqttd console </br>
+
 Plugin Config
 -------------
 
-etc/emq_persist_redis.conf
-
-### Redis server configure
+\> vi etc/emq_persist_redis.conf </br>
+```
+## Redis server configure
 persist.redis.server = 127.0.0.1:6379
 persist.redis.database = 0
 persist.redis.password = ""
 
-### Logging LIST(per client) length
+## Logging LIST(per client) length
 persist.redis.log_list_length = 10
 
-### PUBLISH LIST(per topic) length
+## PUBLISH LIST(per topic) length
 persist.redis.pub_list_length = 100
 
-### client SET name
+## client SET name
 persist.redis.client_set = client_set
-
+```
 Redis Table
 ------------
-### Logging LIST:
+##### Logging LIST:
 ```
 -------------------------------------------------------------------------------------
 |  127.0.0.1:6379> LRANGE client1 0 -1                                              |
@@ -40,7 +52,7 @@ Redis Table
 |  4) "CONNECTED    at 2018-03-12 11:01:09 Result:   Connection accepted"           |
 -------------------------------------------------------------------------------------
 ```
-### PUBLISH LIST:
+##### PUBLISH LIST:
 ```
 ----------------------------------------------------------------------------------------------
 |  127.0.0.1:6379> LRANGE sensor 0 -1                                                        |
@@ -49,7 +61,7 @@ Redis Table
 |  3) "2018-03-12 11:02:40 PUBLISH Message(Q2, R0, D0, PktId:1, From:client1, Payload:msg1)" |
 ----------------------------------------------------------------------------------------------
 ```
-### client SET:
+##### client SET:
 ```
 ---------------------------------------------
 |  127.0.0.1:6379> SMEMBERS mqtt_client_set |
